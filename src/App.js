@@ -1,7 +1,12 @@
+import React, { useContext } from "react";
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
+import { observer } from "mobx-react-lite";
+import { StoreProvider, StoreContext, Store } from "./model/contexts";
+
+const Root = observer(() => {
+  const { store } = useContext(StoreContext);
   return (
     <div className="App">
       <header className="App-header">
@@ -20,6 +25,13 @@ function App() {
       </header>
     </div>
   );
-}
+});
+
+const App = () => {
+  const store = Store.create({});
+  return <StoreProvider initialStore={store}>
+    <Root />
+  </StoreProvider>
+};
 
 export default App;
