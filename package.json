@@ -7,6 +7,7 @@
     "@testing-library/react": "^11.2.3",
     "@testing-library/user-event": "^12.6.0",
     "bulma": "^0.9.1",
+    "bulma-timeline": "^3.0.4",
     "mobx": "^6.0.4",
     "mobx-react": "^7.0.5",
     "mobx-state-tree": "^5.0.0",

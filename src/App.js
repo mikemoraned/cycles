@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import './App.scss';
 
 
@@ -10,11 +10,23 @@ const Root = observer(() => {
 
   return (
     <div className="App">
-      <ul>
-      {store.tagged.map((taggedDate) => {
-        return <li key={taggedDate.tag}>{taggedDate.tag}</li>
-      })}
-      </ul>
+      <div className="timeline">
+        <header className="timeline-header">
+          <span className="tag is-medium is-primary">Start</span>
+        </header>
+        {store.tagged.map((taggedDate) => {
+          return <div className="timeline-item" key={taggedDate.tag}>
+              <div class="timeline-marker"></div>
+              <div className="timeline-content">
+                <p class="heading">January 2016</p>
+                <p><span className="tag is-small is-primary">{taggedDate.tag}</span></p>
+              </div>
+            </div>
+        })}
+        <div className="timeline-header">
+          <span className="tag is-medium is-primary">End</span>
+        </div>
+      </div>
       <button className="button" onClick={() => store.addTaggedDate("some_tag")}>Click Me</button>
     </div>
   );
