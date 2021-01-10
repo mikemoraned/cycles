@@ -30,7 +30,8 @@ const TagView = observer(() => {
   const events = store.tagged.map((taggedDate) => {
     return {
       title: taggedDate.name,
-      date: taggedDate.date
+      date: taggedDate.date,
+      allDay: true
     }
   });
 
