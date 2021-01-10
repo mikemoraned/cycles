@@ -4,6 +4,7 @@ import './App.scss';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from "@fullcalendar/interaction";
 
 import { observer } from "mobx-react-lite";
 import { StoreProvider, StoreContext, Store } from "./model/contexts";
@@ -28,10 +29,16 @@ const Tagger = observer(() => {
 const TagView = observer(() => {
   const { store } = useContext(StoreContext);
   
+  function dateClick(e) {
+    console.log(e);
+    store.addTaggedDate("tag", e.date)
+  }
+
   return <FullCalendar
-    plugins={[ dayGridPlugin ]}
+    plugins={[ dayGridPlugin, interactionPlugin ]}
     initialView="dayGridMonth"
     events={store.fullCalendarEvents}
+    dateClick={dateClick}
   />;
 });
 
