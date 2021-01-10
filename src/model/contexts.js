@@ -18,7 +18,17 @@ export const Store = types
           self.tagged.push(TaggedDate.create({ name, date }));
       }
   }))
-  .views((self) => ({}));
+  .views((self) => ({
+    get fullCalendarEvents() {
+      return self.tagged.map((taggedDate) => {
+        return {
+          title: taggedDate.name,
+          date: taggedDate.date,
+          allDay: true
+        }
+      });
+    }
+  }));
 
 export const StoreContext = React.createContext(null);
 
