@@ -2,6 +2,9 @@ import React, { useContext, useState } from "react";
 import DatePicker from 'react-date-picker';
 import './App.scss';
 
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+
 import { observer } from "mobx-react-lite";
 import { StoreProvider, StoreContext, Store } from "./model/contexts";
 
@@ -22,30 +25,27 @@ const Tagger = observer(() => {
     </div>;
 });
 
-const Root = observer(() => {
+const TagView = observer(() => {
   const { store } = useContext(StoreContext);
-  
+  const events = store.tagged.map((taggedDate) => {
+    return {
+      title: taggedDate.name,
+      date: taggedDate.date
+    }
+  });
+
+  return <FullCalendar
+    plugins={[ dayGridPlugin ]}
+    initialView="dayGridMonth"
+    events={events}
+  />;
+});
+
+const Root = observer(() => {
   return (
     <div className="App">
-      <div className="timeline">
-        <header className="timeline-header">
-          <span className="tag is-medium is-primary">Start</span>
-        </header>
-        {store.tagged.map((taggedDate) => {
-          const formattedDate = new Intl.DateTimeFormat("en-UK").format(taggedDate.date);
-          return <div className="timeline-item" key={taggedDate.tag}>
-              <div className="timeline-marker"></div>
-              <div className="timeline-content">
-                <p className="heading">{formattedDate}</p>
-                <p><span className="tag is-small is-primary">{taggedDate.name}</span></p>
-              </div>
-            </div>
-        })}
-        <div className="timeline-header">
-          <span className="tag is-medium is-primary">End</span>
-        </div>
-      </div>
       <Tagger />
+      <TagView />
     </div>
   );
 });
