@@ -3,7 +3,8 @@ import { types } from "mobx-state-tree";
 
 export const TaggedDate = types
   .model("TaggedDate", {
-      tag: types.string
+      name: types.string,
+      date: types.Date
   })
   .actions((self) => ({}))
   .views((self) => ({}));
@@ -13,8 +14,8 @@ export const Store = types
     tagged: types.array(TaggedDate)
   })
   .actions((self) => ({
-      addTaggedDate(tagName) {
-          self.tagged.push(TaggedDate.create({ tag: tagName }));
+      addTaggedDate(name, date) {
+          self.tagged.push(TaggedDate.create({ name, date }));
       }
   }))
   .views((self) => ({}));
