@@ -1,6 +1,4 @@
 import React, { useContext, useState } from "react";
-import DatePicker from 'react-date-picker';
-import './App.scss';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -9,20 +7,15 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { observer } from "mobx-react-lite";
 import { StoreProvider, StoreContext, Store } from "./model/contexts";
 
+import './App.scss';
+
 const Tagger = observer(() => {
   const { store } = useContext(StoreContext);
   const [tag, setTag] = useState("your tag");
-  const [date, setDate] = useState(new Date());
-
+  
   return <div>
       <input type="text" value={tag} onChange={(e) => setTag(e.target.value)} />
-      <div>
-        <DatePicker
-          onChange={setDate}
-          value={date}
-        />
-      </div>
-      <button className="button" onClick={() => store.addTaggedDate(tag, date)}>Add tag</button>
+      <button className="button" onClick={() => store.addTaggedDate(tag, new Date())}>Add tag</button>
     </div>;
 });
 
