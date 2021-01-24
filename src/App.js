@@ -1,25 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext, useState } from "react";
 
-function App() {
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from "@fullcalendar/interaction";
+
+import { observer } from "mobx-react-lite";
+import { StoreProvider, StoreContext, Store } from "./model/contexts";
+
+import './App.scss';
+
+const Tagger = observer(() => {
+  const { store } = useContext(StoreContext);
+  const [tag, setTag] = useState("your tag");
+  
+  return <div>
+      <input type="text" value={tag} onChange={(e) => setTag(e.target.value)} />
+      <button className="button" onClick={() => store.addTaggedDate(tag, new Date())}>Add tag</button>
+    </div>;
+});
+
+const TagView = observer(() => {
+  const { store } = useContext(StoreContext);
+  
+  function dateClick(e) {
+    console.log(e);
+    store.addTaggedDate("tag", e.date)
+  }
+
+  return <FullCalendar
+    plugins={[ dayGridPlugin, interactionPlugin ]}
+    initialView="dayGridMonth"
+    events={store.fullCalendarEvents}
+    dateClick={dateClick}
+  />;
+});
+
+const Root = observer(() => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Tagger />
+      <TagView />
     </div>
   );
-}
+});
+
+const App = () => {
+  const store = Store.create({});
+  return <StoreProvider initialStore={store}>
+    <Root />
+  </StoreProvider>
+};
 
 export default App;
